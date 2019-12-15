@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var db = require('../models');
+var db = require('../models/index');
 
 router.get('/', function(req, res) {
     db.Todo.find()
@@ -20,6 +20,16 @@ router.post('/', function(req, res) {
     .catch(function(err) {
         res.send(err);
     })
-})
+});
+
+router.get('/:todoId', function(req, res) {
+    db.Todo.findById(req.params.todoId)
+    .then(function(foundTodo) {
+        res.json(foundTodo);
+    })
+    .catch(function(err) {
+        res.send(err);
+    })
+});
 
 module.exports = router;
